@@ -7,13 +7,56 @@ const operators = [{"+": "add"}, {"-":"subtract"}, {"*":"multiply"}, {"/":"divid
 
 export class App extends React.component {
     constructor(props){
-        super(props)
+        super(props);
+        this.state = {
+            numbers: numbers,
+            operators: operators,
+            formula: 0,
+            result: 0
+        }
+        this.onClick = this.onClick.bind(this);
+        this.onClear = this.onClear.bind(this);
+        this.onEqual = this.onEqual.bind(this);
+    }
+
+    onClick(event){
+        const targetValue = event.target.value;
+        if((this.state.formula == "" && targetValue != 0||"."||"+"||"/"||"*") || (this.state.result == 0 && targetValue != 0) || this.state.result != 0){
+            this.setState({
+                result:  typeof targetValue == number || targetValue == "." ? this.state.result + targetValue : targetValue,
+                formula: this.state.formula + targetValue
+            })
+        }
+    }
+    
+    onClear(){
+        this.setState({
+            formula:"",
+            result: 0
+        })
+    }
+
+    onEqual(){
+        const newResult = eval(this.state.formula)
+        this.setState({
+            formula: this.state.formula + "=" + newResult,
+            result: newResult
+        })
     }
     render(){
         return(
             <div>
-                <Display />
-                <Keys />
+                <Display 
+                    formula={this.state.formula} 
+                    result={this.state.result} 
+                />
+                <Keys 
+                    onClick={this.state.onClick} 
+                    onClear={this.state.onClear} 
+                    onEqual={this.state.onEqual} 
+                    numbers={this.state.numbers}
+                    operators={this.state.operators}
+                />
             </div>
         )
     }
