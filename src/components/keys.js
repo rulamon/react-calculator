@@ -1,13 +1,14 @@
 import React from 'react'
 
+
 const Clear = (props) => {
     return(
-        <div>
-        </div>
+        <button id="clear" value="CE" onClick={props.onClear} />
     )
 }
 
 const Operators = (props) => {
+
     return(
         <div>
         </div>
@@ -24,7 +25,14 @@ const Numbers = (props) => {
 
 const Decimal = (props) => {
     return(
+        <button id="decimal" value="." onClick={props.onDecimal} />
+    )
+}
+
+const Equal = (props) => {
+    return(
         <div>
+
         </div>
     )
 }
@@ -32,10 +40,10 @@ const Decimal = (props) => {
 export const Keys = (props) => {
     return(
         <div>
-            <Clear />
-            <Operators />
-            <Numbers />
-            <Decimal />
+            <Clear onClear={props.onClear} />
+            <Operators onOperator={props.onOperator} operators={props.operators} />
+            <Numbers onNumber={props.onNumber} numbers={props.numbers} />
+            <Decimal onDecimal={props.onDecimal} />
         </div>
     )
 }

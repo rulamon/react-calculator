@@ -14,80 +14,18 @@ export class App extends React.component {
             numbers: numberObjects,
             operators: operatorObjects,
             formula: "",
-            result: 0
+            result: "0"
         }
-        this.onClick = this.onClick.bind(this);
         this.onClear = this.onClear.bind(this);
         this.onEqual = this.onEqual.bind(this);
+        this.onDecimal = this.onDecimal.bind(this);
+        this.onNumber = this.onNumber.bind(this);
+        this.onOperator = this.onOperator.bind(this);
     }
-
-    onClick(event){
-        const targetValue = event.target.value;
-        // result is 0
-        if (this.state.result == 0) {
-            // after clear
-            if (this.state.formula == ""){
-                // not zero or operator != - or .
-                if (targetValue != 0||"+"||"/"||"*"||"."){
-                    this.setState({
-                        result: targetValue,
-                        formula: this.state.formula + targetValue
-                    })
-                // .
-                } else if (targetValue == ".") {
-                    this.setState({
-                        result: "0.",
-                        formula: "0."
-                    })
-                }
-            // during operation 
-            } else if (!targetValue == 0) {
-                if (numbersArray.includes(targetValue)){
-                    this.setState({
-                        result: targetValue,
-                        formula: this.state.formula.slice(-1) + targetValue
-                    })
-                } else if (targetValue == ".") {
-                    this.setState({
-                        result: "0.",
-                        formula: this.state.formula + "."
-                    })
-                }
-            }
-        // after onEqual
-        } else if (this.state.formula.includes("=")) {
-            // number != 0
-            if(numbersArray.includes(targetValue) && targetValue != 0) {
-                this.setState({
-                    formula: targetValue,
-                    result: targetValue
-                })
-                // number == 0
-            } else if(targetValue == 0){
-                this.onClear()
-                // operator
-            } else if (operatorsArray.includes(targetValue)){
-                this.setState({
-                    formula: this.state.result + targetValue,
-                    result: targetValue
-                })
-                // .
-            } else if (targetValue == ".") {
-                this.setState({
-                    formula: "0.",
-                    result: "0."
-                })
-            }
-        // normal operation 
-            // result includes of == (.!!), operator
-        } else if (!result.includes(".")) {
-        }
-    }
-    
     onClear(){
         this.setState({
             formula: "",
-            result: 0
+            result: "0"
         })
     }
 
@@ -99,6 +37,72 @@ export class App extends React.component {
                 result: newResult
             })
     }
+
+    onNumber(event){
+        const eventTarget = event.target.value;
+        if ((this.state.result == "0" && eventTarget != "0") || operatorsArray.includes(this.state.result)) {
+            this.setState({
+                result: eventTarget,
+                formula: this.state.formula + eventTarget
+            })
+        } else if (this.state.formula.includes("=")) {
+            this.setState({
+                result: eventTarget,
+                formula: "" + eventTarget
+            })
+        } else if(numbersArray.includes(this.state.result) && this.state.result != 0){
+            this.setState({
+                result: this.state.result + targetValue,
+                formula: this.state.formula + targetValue
+            })
+        }
+    }
+
+    onDecimal(){
+        if ((this.state.result == "0" && this.state.formula == "") || (this.state.formula.includes("="))){
+            this.setState({
+                result: "0.",
+                formula: "0."
+            })
+        } else if (operatorsArray.includes(this.state.result)){
+            this.setState({
+                result: "0.",
+                formula: this.state.formula + "0."
+            })
+        } else if (!this.state.result.includes(".")){
+            this.setState({
+                result: this.state.result + ".",
+                formula: this.state.formula + "."
+            })
+        }
+    }
+
+    onOperator(event){
+        const eventTarget = event.target.value;
+        if (currentFormula == "" && eventTarget !== ("+"||"*"||"/")){
+            this.setState({
+                result: eventTarget,
+                formula: eventTarget
+            })
+        } else if (operatorsArray.includes(this.state.result)){
+            this.setState({
+                result: eventTarget,
+                formula: this.state.formula.substring(0, this.state.formula.length - 1) + eventTarget
+            })
+        } else if (this.state.formula.includes("=")){
+            this.setState({
+                result: eventTarget,
+                formula: this.state.result + eventTarget
+            })
+        } else {
+            this.setState({
+                result: eventTarget,
+                formula: this.state.formula + eventTarget
+            })
+        }
+        
+    }
+
     render(){
         return(
             <div>
@@ -107,7 +111,9 @@ export class App extends React.component {
                     result={this.state.result} 
                 />
                 <Keys 
-                    onClick={this.state.onClick} 
+                    onNumber={this.state.onNumber} 
+                    onDecimal={this.state.onDecimal} 
+                    onOperator={this.state.onOperator} 
                     onClear={this.state.onClear} 
                     onEqual={this.state.onEqual} 
                     numbers={this.state.numbers}
