@@ -1,13 +1,9 @@
 import React from 'react';
-import { Display } from 'display.js'
-import { Keys } from 'keys.js'
+import { Display } from './display.js'
+import { Keys } from './keys.js';
+import { numberObjects, operatorObjects, numbersArray, operatorsArray } from '../utils/constants';
 
-const numberObjects = [{0: "zero"}, {1: "one"}, {2: "two"}, {3: "three"}, {4: "four"}, {5: "five"}, {6: "six"}, {7: "seven"}, {8: "eight"}, {9: "nine"}];
-const operatorObjects = [{"+": "add"}, {"-":"subtract"}, {"*":"multiply"}, {"/":"divide"}];
-const numbersArray = numberObjects.map(object => Object.keys(object)[0]);
-const operatorsArray = operatorObjects.map(object => Object.keys(object)[0]);
-
-export class App extends React.component {
+export class App extends React.Component {
     constructor(props){
         super(props);
         this.state = {
@@ -15,7 +11,7 @@ export class App extends React.component {
             operators: operatorObjects,
             formula: "",
             result: "0"
-        }
+        };
         this.onClear = this.onClear.bind(this);
         this.onEqual = this.onEqual.bind(this);
         this.onDecimal = this.onDecimal.bind(this);
@@ -25,32 +21,36 @@ export class App extends React.component {
     onClear(){
         this.setState({
             formula: "",
-            result: "0"
+            result: 0
         })
-    }
+    };
 
     onEqual(){
-        if(!this.state.formula.includes("="))    
-            const newResult = eval(this.state.formula)
+        if(!this.state.formula.includes("=")){    
+            const newResult = Math.round(eval(this.state.formula) * 10E12) / 10E12
             this.setState({
                 formula: this.state.formula + "=" + newResult,
                 result: newResult
             })
+        }
     }
-
     onNumber(event){
-        const eventTarget = event.target.value;
-        if ((this.state.result == "0" && eventTarget != "0") || operatorsArray.includes(this.state.result)) {
+        const targetValue = event.target.value;
+        if ((this.state.result == "0" && targetValue != "0") || operatorsArray.includes(this.state.result)) {
             this.setState({
-                result: eventTarget,
-                formula: this.state.formula + eventTarget
+                result: targetValue,
+                formula: this.state.formula + targetValue
             })
         } else if (this.state.formula.includes("=")) {
-            this.setState({
-                result: eventTarget,
-                formula: "" + eventTarget
-            })
-        } else if(numbersArray.includes(this.state.result) && this.state.result != 0){
+            if(targetValue != 0){
+                this.setState({
+                    result: targetValue,
+                    formula: "" + targetValue
+                })
+            } else {
+                this.onClear();
+            }
+        } else if(this.state.result != "0"){
             this.setState({
                 result: this.state.result + targetValue,
                 formula: this.state.formula + targetValue
@@ -78,26 +78,28 @@ export class App extends React.component {
     }
 
     onOperator(event){
-        const eventTarget = event.target.value;
-        if (currentFormula == "" && eventTarget !== ("+"||"*"||"/")){
+        const targetValue = event.target.value;
+        if (this.state.formula == "") {
+            if(targetValue == "-"){
+                this.setState({
+                    result: targetValue,
+                    formula: targetValue
+                })
+            }
+        } else if (this.state.formula.includes("=")){
             this.setState({
-                result: eventTarget,
-                formula: eventTarget
+                result: targetValue,
+                formula: this.state.result + targetValue
             })
         } else if (operatorsArray.includes(this.state.result)){
             this.setState({
-                result: eventTarget,
-                formula: this.state.formula.substring(0, this.state.formula.length - 1) + eventTarget
-            })
-        } else if (this.state.formula.includes("=")){
-            this.setState({
-                result: eventTarget,
-                formula: this.state.result + eventTarget
+                result: targetValue,
+                formula: this.state.formula.substring(0, this.state.formula.length - 1) + targetValue
             })
         } else {
             this.setState({
-                result: eventTarget,
-                formula: this.state.formula + eventTarget
+                result: targetValue,
+                formula: this.state.formula + targetValue
             })
         }
         
@@ -111,11 +113,11 @@ export class App extends React.component {
                     result={this.state.result} 
                 />
                 <Keys 
-                    onNumber={this.state.onNumber} 
-                    onDecimal={this.state.onDecimal} 
-                    onOperator={this.state.onOperator} 
-                    onClear={this.state.onClear} 
-                    onEqual={this.state.onEqual} 
+                    onNumber={this.onNumber} 
+                    onDecimal={this.onDecimal} 
+                    onOperator={this.onOperator} 
+                    onClear={this.onClear} 
+                    onEqual={this.onEqual} 
                     numbers={this.state.numbers}
                     operators={this.state.operators}
                 />

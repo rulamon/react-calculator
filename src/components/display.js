@@ -9,14 +9,14 @@ const Formula = (props) => {
 }
 const Result = (props) => {
     return(
-        <div>
+        <div id="display">
             {props.result}
         </div>
     )
 }
 export const Display = (props) => {
     return(
-        <div id="display">
+        <div>
             <Formula formula={props.formula} />
             <Result result={props.result} />
         </div>
