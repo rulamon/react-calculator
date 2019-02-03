@@ -2,7 +2,7 @@ import React from 'react'
 
 const Formula = (props) => {
     return(
-        <div>
+        <div id="formula">
             {props.formula}
         </div>
     )
@@ -16,7 +16,7 @@ const Result = (props) => {
 }
 export const Display = (props) => {
     return(
-        <div>
+        <div id="screen">
             <Formula formula={props.formula} />
             <Result result={props.result} />
         </div>

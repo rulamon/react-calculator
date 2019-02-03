@@ -2,6 +2,7 @@ import React from 'react';
 import { Display } from './display.js'
 import { Keys } from './keys.js';
 import { numberObjects, operatorObjects, numbersArray, operatorsArray } from '../utils/constants';
+import styles from './styles.scss'
 
 export class App extends React.Component {
     constructor(props){
