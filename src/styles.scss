@@ -80,9 +80,9 @@ body{
         grid-template-columns: [col1-start] 1fr [col1-end col2-start] 1fr [col2-end col3-start] 1fr [col3-end col4-start] 1fr [col4-end];
         grid-template-areas: 
         "clear divide multiply subtract"
-        "one two three add"
+        "seven eight nine add"
         "four five six add"
-        "seven eight nine equals"
+        "one two three equals"
         "zero zero decimal equals";
         grid-gap: 10px 10px;
         
