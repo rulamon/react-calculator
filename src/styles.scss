@@ -1,0 +1,143 @@
+$background: #498467;
+$calculator: #77878B;
+$keys: #26375F;
+$keys-hover:#32497E;
+$specialkeys: #330F0A;
+$specialkeys-hover: #583A36;
+$screen: #A4B0B4;
+
+@font-face{
+    font-family: 'digital-7';
+    src: url('../public/fonts/digital-7.mono.ttf') format('truetype');
+}
+
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    background-color: $background;
+}
+#root {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#main-container{
+    background-color: $calculator;
+    border: solid 2px $keys;
+    border-radius: 20px;
+    height: 500px;
+    width: 350px;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    
+    #screen{
+        min-height: 110px;
+        font-size: 1.75rem;
+        font-family: digital-7;
+        border: solid 2px $keys;
+        border-radius: 5px;
+        background-color: $screen;
+        text-align: right;
+        padding: 7px;
+        // padding-bottom: 17px;
+        margin-bottom: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        
+        #formula{
+            min-height: 30px;
+            font-size: 1rem;
+            overflow-wrap: break-word;
+            overflow: auto;
+        }
+        #display{
+            justify-self: flex-end;
+            word-wrap: break-word;
+        }
+    }
+    #keys {
+        flex-basis: 100%;
+        display: grid;
+        grid-template-rows: 
+        [row1-start]  1fr [row1-end row2-start] 1fr [row2-end row3-start] 1fr [row3-end row4-start] 1fr[row4-end row5-start] 1fr [row5-end];
+        grid-template-columns: [col1-start] 1fr [col1-end col2-start] 1fr [col2-end col3-start] 1fr [col3-end col4-start] 1fr [col4-end];
+        grid-template-areas: 
+        "clear divide multiply subtract"
+        "one two three add"
+        "four five six add"
+        "seven eight nine equals"
+        "zero zero decimal equals";
+        grid-gap: 10px 10px;
+        
+        @each $key in clear, divide, multiply, subtract, add, one, two, three, four, five, six, seven, eight, nine, equals, zero, decimal {
+            ##{$key} { grid-area: #{$key} };
+        }
+        .key {
+            border-radius: 5px;
+            font-weight: bold;
+            color: $screen;
+            background-color: $keys;
+            border: none;
+        }
+        .key:hover {
+            background-color: $keys-hover;
+            color: black;
+        }
+        .special {
+            background-color: $specialkeys;
+        }
+        .special:hover {
+            background-color: $specialkeys-hover;
+        }
+    }
+}
+
+@media only screen and (max-width: 350px){
+    #main-container{
+        width: 100vw;
+        padding: 10px;
+        border-radius: 0;
+        border: none;
+        height: 100vh;
+        #screen{
+            margin-bottom: 10px;
+            flex-basis: 130px;
+        }
+        #keys {
+            grid-gap: 5px 5px;
+        }
+    }
+}
+@media only screen and (max-height: 500px){
+    #main-container{
+        height: 100%;
+        flex-direction: row-reverse;
+        width: 100%;
+        border: none;
+        border-radius: 0;
+        justify-content: center;
+        #screen {
+            width: 35%;
+            margin-bottom: 0;
+            margin-left: 15px; 
+            position: relative;      
+            #display{
+                word-wrap: break-word;
+            }
+
+        }
+        #keys {
+            flex-basis: 350px;
+        }
+    }
+}

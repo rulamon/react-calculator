@@ -2,7 +2,7 @@ import React from 'react';
 import { Display } from './display.js'
 import { Keys } from './keys.js';
 import { numberObjects, operatorObjects, numbersArray, operatorsArray } from '../utils/constants';
-import styles from './styles.scss'
+import styles from '../styles.scss'
 
 export class App extends React.Component {
     constructor(props){
@@ -18,6 +18,7 @@ export class App extends React.Component {
         this.onDecimal = this.onDecimal.bind(this);
         this.onNumber = this.onNumber.bind(this);
         this.onOperator = this.onOperator.bind(this);
+        this.onKeyDown
     }
     onClear(){
         this.setState({
@@ -37,7 +38,9 @@ export class App extends React.Component {
     }
     onNumber(event){
         const targetValue = event.target.value;
-        if ((this.state.result == "0" && targetValue != "0") || operatorsArray.includes(this.state.result)) {
+        if(this.state.result.length >= 20) {
+            alert("maximum amount of numbers entered")
+        } else if ((this.state.result == "0" && targetValue != "0") || operatorsArray.includes(this.state.result)) {
             this.setState({
                 result: targetValue,
                 formula: this.state.formula + targetValue
@@ -60,7 +63,9 @@ export class App extends React.Component {
     }
 
     onDecimal(){
-        if ((this.state.result == "0" && this.state.formula == "") || (this.state.formula.includes("="))){
+        if(this.state.result.length >= 20) {
+            alert("maximum amount of numbers entered")
+        } else if ((this.state.result == "0" && this.state.formula == "") || (this.state.formula.includes("="))){
             this.setState({
                 result: "0.",
                 formula: "0."
@@ -108,7 +113,7 @@ export class App extends React.Component {
 
     render(){
         return(
-            <div>
+            <div id="main-container">
                 <Display 
                     formula={this.state.formula} 
                     result={this.state.result} 
