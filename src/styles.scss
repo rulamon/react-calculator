@@ -112,6 +112,9 @@ body{
 }
 
 @media only screen and (max-width: 350px){
+    #author{
+        display: none;
+    }
     #calculator{
         width: 100vw;
         padding: 10px;
@@ -127,13 +130,16 @@ body{
         }
     }
 }
+@media only screen and (max-height: 535px){
+    #author{
+        display: none;
+    }
+}
 @media only screen and (max-height: 500px){
     #calculator{
-        height: 100%;
+        max-height: 350px;
+        width: 100vw;
         flex-direction: row-reverse;
-        width: 100%;
-        border: none;
-        border-radius: 0;
         justify-content: center;
         #screen {
             width: 35%;
@@ -148,5 +154,10 @@ body{
         #keys {
             flex-basis: 350px;
         }
+    }
+}
+@media only screen and (max-height: 445px){
+    #calculator{
+        height: 100vh;
     }
 }
