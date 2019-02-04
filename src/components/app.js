@@ -114,19 +114,22 @@ export class App extends React.Component {
     render(){
         return(
             <div id="main-container">
-                <Display 
-                    formula={this.state.formula} 
-                    result={this.state.result} 
-                />
-                <Keys 
-                    onNumber={this.onNumber} 
-                    onDecimal={this.onDecimal} 
-                    onOperator={this.onOperator} 
-                    onClear={this.onClear} 
-                    onEqual={this.onEqual} 
-                    numbers={this.state.numbers}
-                    operators={this.state.operators}
-                />
+                <div id="calculator">
+                    <Display 
+                        formula={this.state.formula} 
+                        result={this.state.result} 
+                    />
+                    <Keys 
+                        onNumber={this.onNumber} 
+                        onDecimal={this.onDecimal} 
+                        onOperator={this.onOperator} 
+                        onClear={this.onClear} 
+                        onEqual={this.onEqual} 
+                        numbers={this.state.numbers}
+                        operators={this.state.operators}
+                    />
+                </div>
+                <div id="author">Coded by Ruben Lamon</div>
             </div>
         )
     }

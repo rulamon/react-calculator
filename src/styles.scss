@@ -6,6 +6,8 @@ $specialkeys: #330F0A;
 $specialkeys-hover: #583A36;
 $screen: #A4B0B4;
 
+@import url('https://fonts.googleapis.com/css?family=Roboto+Mono');
+
 @font-face{
     font-family: 'digital-7';
     src: url('../public/fonts/digital-7.mono.ttf') format('truetype');
@@ -28,7 +30,13 @@ body{
     justify-content: center;
 }
 
-#main-container{
+#author{
+    text-align: center;
+    font-family: 'Roboto Mono', monospace;
+    margin-top: 15px;
+}
+
+#calculator{
     background-color: $calculator;
     border: solid 2px $keys;
     border-radius: 20px;
@@ -48,7 +56,6 @@ body{
         background-color: $screen;
         text-align: right;
         padding: 7px;
-        // padding-bottom: 17px;
         margin-bottom: 15px;
         display: flex;
         flex-direction: column;
@@ -84,6 +91,8 @@ body{
         }
         .key {
             border-radius: 5px;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.2rem;
             font-weight: bold;
             color: $screen;
             background-color: $keys;
@@ -103,7 +112,7 @@ body{
 }
 
 @media only screen and (max-width: 350px){
-    #main-container{
+    #calculator{
         width: 100vw;
         padding: 10px;
         border-radius: 0;
@@ -119,7 +128,7 @@ body{
     }
 }
 @media only screen and (max-height: 500px){
-    #main-container{
+    #calculator{
         height: 100%;
         flex-direction: row-reverse;
         width: 100%;
